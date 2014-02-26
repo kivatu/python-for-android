@@ -113,6 +113,7 @@ void android_accelerometer_reading(float *values) {
 }
 
 int android_get_dpi(void) {
+#ifndef PY4A_TARGET_KLAATU
     static JNIEnv *env = NULL;
     static jclass *cls = NULL;
     static jmethodID mid = NULL;
@@ -127,6 +128,9 @@ int android_get_dpi(void) {
     }
 
     return (*env)->CallStaticIntMethod(env, cls, mid);
+#else
+    return PY4A_KLAATU_DPI;
+#endif
 }
 
 void android_show_keyboard(int input_type) {
@@ -202,6 +206,7 @@ void android_get_buildinfo() {
 }
 
 void android_activate_input(void) {
+#ifndef PY4A_TARGET_KLAATU
     static JNIEnv *env = NULL;
     static jclass *cls = NULL;
     static jmethodID mid = NULL;
@@ -216,6 +221,9 @@ void android_activate_input(void) {
     }
 
     (*env)->CallStaticVoidMethod(env, cls, mid);
+#else
+    return;
+#endif
 }
 
 int android_checkstop(void) {
