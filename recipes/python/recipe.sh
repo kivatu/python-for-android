@@ -20,7 +20,11 @@ function prebuild_python() {
 	fi
 
 	try patch -p1 < $RECIPE_python/patches/Python-$VERSION_python-xcompile.patch
-	try patch -p1 < $RECIPE_python/patches/disable-modules.patch
+	if [ -z "$KIVY_TARGET_KLAATU" ]; then
+		try patch -p1 < $RECIPE_python/patches/disable-modules.patch
+	else
+		try patch -p1 < $RECIPE_python/patches/disable-modules-klaatu.patch
+	fi
 	try patch -p1 < $RECIPE_python/patches/fix-locale.patch
 	try patch -p1 < $RECIPE_python/patches/fix-gethostbyaddr.patch
 	try patch -p1 < $RECIPE_python/patches/fix-setup-flags.patch
@@ -91,9 +95,19 @@ function build_python() {
 		export CFLAGS="$CFLAGS -I$BUILD_sqlite3"
 		export LDFLAGS="$LDFLAGS -L$SRC_PATH/obj/local/$ARCH/"
 	fi
+	
+	if [ -z "$KIVY_TARGET_KLAATU" ]; then
+		try ./configure --host=arm-eabi OPT=$OFLAG --prefix="$BUILD_PATH/python-install" --enable-shared --disable-toolbox-glue --disable-framework
+		echo ./configure --host=arm-eabi  OPT=$OFLAG --prefix="$BUILD_PATH/python-install" --enable-shared --disable-toolbox-glue --disable-framework
+	else
+		#allow ctypes for klaatu
+		export HOSTARCH=arm-eabi
+		export BUILDARCH=x86_64-linux-gnu
+		export CFLAGS="$CFLAGS -DNO_MALLINFO"
+		try ./configure --host=$HOSTARCH --build=$BUILDARCH --prefix="$BUILD_PATH/python-install" --enable-shared --disable-toolbox-glue --disable-framework
+		echo ./configure --host=$HOSTARCH --build=$BUILDARCH --prefix="$BUILD_PATH/python-install" --enable-shared --disable-toolbox-glue --disable-framework	
 
-	try ./configure --host=arm-eabi OPT=$OFLAG --prefix="$BUILD_PATH/python-install" --enable-shared --disable-toolbox-glue --disable-framework
-	echo ./configure --host=arm-eabi  OPT=$OFLAG --prefix="$BUILD_PATH/python-install" --enable-shared --disable-toolbox-glue --disable-framework
+	fi
 	echo $MAKE HOSTPYTHON=$BUILD_python/hostpython HOSTPGEN=$BUILD_python/hostpgen CROSS_COMPILE_TARGET=yes INSTSONAME=libpython2.7.so
 	cp HOSTPYTHON=$BUILD_python/hostpython python
 
