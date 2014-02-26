@@ -2,7 +2,11 @@
 
 VERSION_kivy=${VERSION_kivy:-stable}
 URL_kivy=https://github.com/kivy/kivy/zipball/$VERSION_kivy/kivy-$VERSION_kivy.zip
-DEPS_kivy=(pygame pyjnius android)
+if [ -z "$KIVY_TARGET_KLAATU" ]; then
+	DEPS_kivy=(pygame pyjnius android)
+else
+	DEPS_kivy=(pygame android)
+fi
 MD5_kivy=
 BUILD_kivy=$BUILD_PATH/kivy/$(get_directory $URL_kivy)
 RECIPE_kivy=$RECIPES_PATH/kivy
