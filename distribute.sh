@@ -172,7 +172,11 @@ function push_arm() {
 	export CXXFLAGS="$CFLAGS"
 
 	# that could be done only for darwin platform, but it doesn't hurt.
-	export LDFLAGS="-lm"
+	if [ -z "$KIVY_TARGET_KLAATU" ]; then
+		export LDFLAGS="-lm"
+	else
+		export LDFLAGS="-lm -Wl,-z,noexecstack"
+	fi
 
 	# this must be something depending of the API level of Android
 	PYPLATFORM=$($PYTHON -c 'from __future__ import print_function; import sys; print(sys.platform)')
