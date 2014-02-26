@@ -1,18 +1,30 @@
 #!/bin/bash
 
-VERSION_kivy=${VERSION_kivy:-stable}
-URL_kivy=https://github.com/kivy/kivy/zipball/$VERSION_kivy/kivy-$VERSION_kivy.zip
 if [ -z "$KIVY_TARGET_KLAATU" ]; then
+	VERSION_kivy=${VERSION_kivy:-stable}
+	URL_kivy=https://github.com/kivy/kivy/zipball/$VERSION_kivy/kivy-$VERSION_kivy.zip
 	DEPS_kivy=(pygame pyjnius android)
+	BUILD_kivy=$BUILD_PATH/kivy/$(get_directory $URL_kivy)	
 else
+	VERSION_kivy=
+	URL_kivy=
 	DEPS_kivy=(pygame android)
+	MD5_kivy=
+	BUILD_kivy=$BUILD_PATH/kivy/kivy
 fi
 MD5_kivy=
-BUILD_kivy=$BUILD_PATH/kivy/$(get_directory $URL_kivy)
 RECIPE_kivy=$RECIPES_PATH/kivy
 
 function prebuild_kivy() {
-	true
+	if [ -z "$KIVY_TARGET_KLAATU" ]; then
+		true
+	else
+		cd $BUILD_PATH/kivy
+
+        	if [ ! -d kivy ]; then
+                	try git clone https://github.com/kivatu/kivy.git kivy
+        	fi
+	fi
 }
 
 function shouldbuild_kivy() {
