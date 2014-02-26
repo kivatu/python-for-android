@@ -51,7 +51,7 @@ while i < len(sys.argv):
     if opt.startswith("-D"):
         continue
 
-    if opt.startswith("-"):
+    if opt.startswith("-") and 'KIVY_TARGET_KLAATU' not in environ:
         print(sys.argv)
         print("Unknown option: %s" % opt)
         sys.exit(1)
