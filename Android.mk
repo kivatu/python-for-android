@@ -33,7 +33,7 @@ $(file): env += ANDROIDNDK=$(ANDROIDNDK)
 $(file): env += ANDROIDNDKVER=$(ANDROIDNDKVER)
 $(file): env += ANDROIDAPI=$(ANDROIDAPI)
 $(file): $(all_libraries) $(LOCAL_ADDITIONAL_DEPENDENCIES)
-	cd $(where); $(env) ./distribute.sh -m "kivy pil"
+	cd $(where); $(env) ./distribute.sh -m "kivy docutils twisted zope png paramiko jpeg pil ffmpeg particlesystem"
 
 main_library := $(file)
 

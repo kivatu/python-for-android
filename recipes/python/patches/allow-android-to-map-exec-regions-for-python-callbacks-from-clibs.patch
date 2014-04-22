@@ -1,0 +1,24 @@
+diff -Naur Python-2.7.2.orig/Modules/_ctypes/libffi/configure Python-2.7.2/Modules/_ctypes/libffi/configure
+--- Python-2.7.2.orig/Modules/_ctypes/libffi/configure	2011-06-11 08:46:26.000000000 -0700
++++ Python-2.7.2/Modules/_ctypes/libffi/configure	2014-01-24 08:29:41.974958634 -0800
+@@ -12279,7 +12279,7 @@
+ fi
+ 
+ case "$target" in
+-     *-apple-darwin10* | *-*-freebsd* | *-*-openbsd* | *-pc-solaris*)
++     *-apple-darwin10* | *-*-freebsd* | *-*-openbsd* | *-pc-solaris* | arm-*-eabi )
+ 
+ $as_echo "#define FFI_MMAP_EXEC_WRIT 1" >>confdefs.h
+ 
+diff -Naur Python-2.7.2.orig/Modules/_ctypes/libffi/configure.ac Python-2.7.2/Modules/_ctypes/libffi/configure.ac
+--- Python-2.7.2.orig/Modules/_ctypes/libffi/configure.ac	2011-06-11 08:46:26.000000000 -0700
++++ Python-2.7.2/Modules/_ctypes/libffi/configure.ac	2014-01-24 08:29:31.406958657 -0800
+@@ -287,7 +287,7 @@
+ fi
+ 
+ case "$target" in
+-     *-apple-darwin10* | *-*-freebsd* | *-*-openbsd* | *-pc-solaris*)
++     *-apple-darwin10* | *-*-freebsd* | *-*-openbsd* | *-pc-solaris* | arm-*-eabi )
+        AC_DEFINE(FFI_MMAP_EXEC_WRIT, 1,
+                  [Cannot use malloc on this target, so, we revert to
+                    alternative means])
