@@ -783,9 +783,10 @@ function run_distribute() {
 	fi
 	try rm -rf lib-dynload/_testcapi.so
 
-	debug "Strip libraries"
+	debug "Strip libraries and remove python bytecode"
 	push_arm
-	try find "$DIST_PATH"/private "$DIST_PATH"/libs -iname '*.so' -exec $STRIP {} \;
+	try find "$DIST_PATH"/private "$DIST_PATH"/libs -iname '*.so' -exec $STRIP {} \;	
+	try find "$DIST_PATH"  -iname '*.py[co]' -exec rm {} \;
 	pop_arm
 
 }
