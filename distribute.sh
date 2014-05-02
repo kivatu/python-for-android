@@ -169,6 +169,11 @@ function push_arm() {
 	if [ "X$ARCH" == "Xarmeabi-v7a" ]; then
 		CFLAGS+=" -march=armv7-a -mfloat-abi=softfp -mfpu=vfp -mthumb"
 	fi
+
+	if [ ! -z "$KIVY_TARGET_KLAATU" ]; then
+	    echo "KLAATU ENABLED ARCH=$ARCH"
+	    CFLAGS+=" -DPY4A_TARGET_KLAATU -DPY4A_KLAATU_DPI=300 "
+	fi
 	export CXXFLAGS="$CFLAGS"
 
 	# that could be done only for darwin platform, but it doesn't hurt.
