@@ -1,7 +1,7 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
-LOCAL_ADDITIONAL_DEPENDENCIES += libklaatu_window
+#LOCAL_ADDITIONAL_DEPENDENCIES += libklaatu_window
 LOCAL_SHARED_LIBRARIES := \
 	libc libklaatu_window
 
