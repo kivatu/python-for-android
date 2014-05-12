@@ -1,7 +1,7 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
-LOCAL_ADDITIONAL_DEPENDENCIES += libklaatu_window
+#LOCAL_ADDITIONAL_DEPENDENCIES += libklaatu_window
 LOCAL_SHARED_LIBRARIES := \
 	libc libklaatu_window
 
@@ -9,7 +9,8 @@ LOCAL_MODULE:= libpython2.7
 LOCAL_MODULE_TAGS := eng
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
 
-LOCAL_CFLAGS := -DPY4A_TARGET_KLAATU -DPY4A_KLAATU_DPI=300
+# this needs to be set in distribute.sh since the python build doesn't pick this up
+#LOCAL_CFLAGS := -DPY4A_TARGET_KLAATU -DPY4A_KLAATU_DPI=300
 
 ANDROIDNDK := $(KLAATU_NDK)
 ANDROIDSDK := $(KLAATU_NDK)
@@ -33,7 +34,7 @@ $(file): env += ANDROIDNDK=$(ANDROIDNDK)
 $(file): env += ANDROIDNDKVER=$(ANDROIDNDKVER)
 $(file): env += ANDROIDAPI=$(ANDROIDAPI)
 $(file): $(all_libraries) $(LOCAL_ADDITIONAL_DEPENDENCIES)
-	cd $(where); $(env) ./distribute.sh -m "kivy pil"
+	cd $(where); $(env) ./distribute.sh -m "kivy docutils twisted zope png paramiko jpeg pil ffmpeg particlesystem"
 
 main_library := $(file)
 
